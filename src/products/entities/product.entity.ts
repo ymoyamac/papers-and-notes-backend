@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { ProductImage } from './product-image.entity';
 
 @Entity()
 export class Product {
@@ -6,29 +7,25 @@ export class Product {
   id: string;
 
   @Column({
-    name: 'p_name',
     type: 'text',
     unique: true,
   })
   name: string;
 
   @Column({
-    name: 'p_description',
     type: 'text',
     nullable: true,
   })
   description?: string;
 
   @Column({
-    name: 'p_price',
-    type: 'numeric',
-    default: 0.0,
+    type: 'float',
+    default: 0,
     nullable: true,
   })
   price?: number;
 
   @Column({
-    name: 'p_stock',
     type: 'int',
     width: 10,
     default: 0,
@@ -36,16 +33,9 @@ export class Product {
   })
   stock?: number;
 
-  @Column({
-    name: 'p_image',
-    type: 'text',
-    nullable: true,
-  })
-  image?: string;
   //category: string;
 
   @Column({
-    name: 'p_tags',
     type: 'text',
     array: true,
     nullable: true,
@@ -53,9 +43,14 @@ export class Product {
   tags?: string[];
 
   @Column({
-    name: 'p_is_active',
     type: 'bool',
     default: true,
   })
   isActive: boolean;
+
+  @OneToMany(() => ProductImage, (productImage) => productImage.product, {
+    cascade: true,
+    eager: true,
+  })
+  images?: ProductImage[];
 }

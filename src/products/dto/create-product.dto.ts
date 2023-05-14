@@ -30,7 +30,7 @@ export class CreateProductDto {
 
   @IsString()
   @IsOptional()
-  image?: string;
+  images?: string[];
 
   @IsString({ each: true })
   @IsArray()
